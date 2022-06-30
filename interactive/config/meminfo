@@ -1,0 +1,185 @@
+(Data in kB)             Routine           Peak Array  Routine Mem    Total Mem       Action
+                    inputhandler                jfile            1            0            0            A
+                  read_positions                  bas           24            1            1            A
+                  read_positions            atype_inp            4           25           25            A
+                  read_positions            anumb_inp            4           29           29            A
+                    read_moments            ammom_inp            8           33           33            A
+                    read_moments            aemom_inp           24           41           41            A
+                    read_moments            Landeg_ch            8           65           65            A
+                   read_exchange               NN_tmp            4           73           73            A
+                   read_exchange               NN_tmp           -4           77           77            D
+       allocate_hamiltonianinput                   jc           48           73           77            A
+       allocate_hamiltonianinput             redcoord          144          121          121            A
+       allocate_hamiltonianinput                   NN            4          265          265            A
+       allocate_hamiltonianinput                dm_nn            4          269          269            A
+       allocate_hamiltonianinput                pd_nn            4          273          273            A
+       allocate_hamiltonianinput              chir_nn            4          277          277            A
+       allocate_hamiltonianinput             biqdm_nn            4          281          281            A
+       allocate_hamiltonianinput                bq_nn            4          285          285            A
+       allocate_hamiltonianinput       anisotropytype            4          289          289            A
+       allocate_hamiltonianinput           anisotropy           48          293          293            A
+read_exchange_reduceRedCoordMatr         redcoord_tmp          144          341          341            A
+read_exchange_reduceRedCoordMatr             redcoord         -144          485          485            D
+read_exchange_reduceRedCoordMatr             redcoord          144          341          485            A
+read_exchange_reduceRedCoordMatr         redcoord_tmp         -144          485          485            D
+read_exchange_reduceCouplingMatr               jc_tmp           48          341          485            A
+read_exchange_reduceCouplingMatr                   jc          -48          389          485            D
+read_exchange_reduceCouplingMatr                   jc           48          341          485            A
+read_exchange_reduceCouplingMatr               jc_tmp          -48          389          485            D
+                   read_exchange               NN_tmp            4          341          485            A
+                   read_exchange               NN_tmp           -4          345          485            D
+                     read_dmdata          dm_redcoord          144          341          485            A
+                     read_dmdata           dm_inpvect          144          485          485            A
+read_exchange_reduceRedCoordMatr         redcoord_tmp          144          629          629            A
+read_exchange_reduceRedCoordMatr             redcoord         -144          773          773            D
+read_exchange_reduceRedCoordMatr             redcoord          144          629          773            A
+read_exchange_reduceRedCoordMatr         redcoord_tmp         -144          773          773            D
+read_exchange_reduceCouplingMatr               jc_tmp          144          629          773            A
+read_exchange_reduceCouplingMatr                   jc         -144          773          773            D
+read_exchange_reduceCouplingMatr                   jc          144          629          773            A
+read_exchange_reduceCouplingMatr               jc_tmp         -144          773          773            D
+                  read_initphase                atype         1600          629          773            A
+                  read_initphase                anumb         1600         2229         2229            A
+                  read_initphase               Landeg         3200         3829         3829            A
+                 setup_globcoord                coord         9600         7029         7029            A
+               allocate_energies           ene%energy           40        16629        16629            A
+               allocate_energies           ene%ene_xc           40        16669        16669            A
+               allocate_energies           ene%ene_dm           40        16709        16709            A
+               allocate_energies           ene%ene_bq           40        16749        16749            A
+               allocate_energies           ene%ene_pd           40        16789        16789            A
+               allocate_energies         ene%ene_chir           40        16829        16829            A
+               allocate_energies          ene%ene_ani           40        16869        16869            A
+               allocate_energies         ene%ene_bqdm           40        16909        16909            A
+               allocate_energies          ene%ene_ext           40        16949        16949            A
+               allocate_energies          ene%ene_dip           40        16989        16989            A
+               allocate_energies          ene%ene_lsf           40        17029        17029            A
+               allocate_energies         ene%ene_pair           40        17069        17069            A
+                allocate_damping        lambda1_array         3200        17109        17109            A
+                allocate_damping        lambda2_array         3200        20309        20309            A
+                   allocate_temp           temp_array         3200        23509        23509            A
+        allocate_hamiltoniandata            nlistsize         1600        26709        26709            A
+        allocate_hamiltoniandata                nlist         9600        28309        28309            A
+        allocate_hamiltoniandata                 aHam         1600        37909        37909            A
+        allocate_hamiltoniandata                ncoup        19200        39509        39509            A
+                 estimate_tc_mfa                 jmat            8        58709        58709            A
+                 estimate_tc_mfa                 jmat           -8        58717        58717            D
+                      get_symops             sym_mats           72        58709        58717            A
+                        setup_nm              nncoord          144        58781        58781            A
+                        setup_nm              nm_cell           24        58925        58925            A
+                        setup_nm             nm_trunk           72        58949        58949            A
+                        setup_nm             nnm_cell           24        59021        59021            A
+                        setup_nm                nmdim         9600        59045        59045            A
+                        setup_nm               nmdimt           24        68645        68645            A
+                        setup_nm              nncoord         -144        68669        68669            D
+                        setup_nm                   nm         9600        68525        68669            A
+                        setup_nm             nm_trunk          -72        78125        78125            D
+                        setup_nm              nm_cell          -24        78053        78125            D
+                        setup_nm             sym_mats          -72        78029        78125            D
+                        setup_nm             nnm_cell          -24        77957        78125            D
+                        setup_nm               nmdimt          -24        77933        78125            D
+      allocate_dmhamiltoniandata           dmlistsize         1600        77909        78125            A
+      allocate_dmhamiltoniandata               dmlist         9600        79509        79509            A
+      allocate_dmhamiltoniandata              dm_vect        57600        89109        89109            A
+                    deallocat_nm                   nm        -9600       146709       146709            D
+                    deallocat_nm                nmdim        -9600       137109       146709            D
+                 allocate_fields                 beff        48000       127509       146709            A
+                 allocate_fields                beff1        48000       175509       175509            A
+                 allocate_fields                beff2        48000       223509       223509            A
+                 allocate_fields                beff3        48000       271509       271509            A
+                 allocate_fields                b2eff        48000       319509       319509            A
+                 allocate_fields       external_field        48000       367509       367509            A
+                 allocate_fields               field1          120       415509       415509            A
+                 allocate_fields               field2          120       415629       415629            A
+                 allocate_fields  time_external_field        48000       415749       415749            A
+                 allocate_fields        thermal_field        48000       463749       463749            A
+    allocate_aux_midpoint_fields         btorque_full        48000       511749       511749            A
+             allocate_randomwork                 ranv        48000       559749       559749            A
+           allocate_trajectories                mmomb       160000       607749       607749            A
+           allocate_trajectories                emomb       480000       767749       767749            A
+           allocate_trajectories                indxb           80      1247749      1247749            A
+            averages_allocations            mavg_buff         8000      1247829      1247829            A
+            averages_allocations       mavg_buff_proj         1200      1255829      1255829            A
+           allocate_measurements      mavg2_buff_proj          400      1257029      1257029            A
+            averages_allocations           indxb_avrg           80      1257429      1257429            A
+                  allocate_mmoms                 mmom        16000      1257509      1257509            A
+                  allocate_mmoms                mmom0        16000      1273509      1273509            A
+                  allocate_mmoms                mmom2        16000      1289509      1289509            A
+                  allocate_mmoms                mmomi        16000      1305509      1305509            A
+                        magninit                 emom        48000      1321509      1321509            A
+                        magninit                emomM        48000      1369509      1369509            A
+                        magninit                emom2        48000      1417509      1417509            A
+                        magninit        red_atom_list         1600      1465509      1465509            A
+       allocate_hamiltonianinput                   jc          -48      1467109      1467109            D
+       allocate_hamiltonianinput                dm_nn           -4      1467061      1467109            D
+       allocate_hamiltonianinput                pd_nn           -4      1467057      1467109            D
+       allocate_hamiltonianinput             biqdm_nn           -4      1467053      1467109            D
+       allocate_hamiltonianinput                bq_nn           -4      1467049      1467109            D
+       allocate_hamiltonianinput                   NN           -4      1467045      1467109            D
+       allocate_hamiltonianinput                jfile           -1      1467041      1467109            D
+       allocate_hamiltonianinput           anisotropy          -48      1467040      1467109            D
+       allocate_hamiltonianinput       anisotropytype           -4      1466992      1467109            D
+       allocate_hamiltonianinput            atype_inp           -4      1466988      1467109            D
+       allocate_hamiltonianinput            anumb_inp           -4      1466984      1467109            D
+       allocate_hamiltonianinput          dm_redcoord         -144      1466980      1467109            D
+       allocate_hamiltonianinput           dm_inpvect         -144      1466836      1467109            D
+       allocate_hamiltonianinput              chir_nn           -4      1466692      1467109            D
+                 allocate_mcdata              iflip_a         1600      1466688      1467109            A
+                 allocate_mcdata              iflip_a        -1600      1468288      1468288            D
+                   allocate_moms                 mmom       -16000      1466688      1468288            D
+                   allocate_moms                mmom0       -16000      1450688      1468288            D
+                   allocate_moms                mmom2       -16000      1434688      1468288            D
+                   allocate_moms                mmomi       -16000      1418688      1468288            D
+                 deallocate_rest                coord        -9600      1402688      1468288            D
+                 deallocate_rest             redcoord         -144      1393088      1468288            D
+                 deallocate_rest                  bas          -24      1392944      1468288            D
+                 deallocate_rest                emomM       -48000      1392920      1468288            D
+                 deallocate_rest                emom2       -48000      1344920      1468288            D
+                 deallocate_rest                 emom       -48000      1296920      1468288            D
+                 deallocate_rest        red_atom_list        -1600      1248920      1468288            D
+                 deallocate_temp           temp_array        -3200      1247320      1468288            D
+                allocate_initmag            ammom_inp           -8      1244120      1468288            D
+                allocate_initmag            aemom_inp          -24      1244112      1468288            D
+                allocate_initmag            Landeg_ch           -8      1244088      1468288            D
+                 allocate_fields                 beff       -48000      1244080      1468288            D
+                 allocate_fields                beff1       -48000      1196080      1468288            D
+                 allocate_fields                beff2       -48000      1148080      1468288            D
+                 allocate_fields                beff3       -48000      1100080      1468288            D
+                 allocate_fields                b2eff       -48000      1052080      1468288            D
+                 allocate_fields       external_field       -48000      1004080      1468288            D
+                 allocate_fields               field1         -120       956080      1468288            D
+                 allocate_fields               field2         -120       955960      1468288            D
+                 allocate_fields  time_external_field       -48000       955840      1468288            D
+                 allocate_fields        thermal_field       -48000       907840      1468288            D
+    allocate_aux_midpoint_fields         btorque_full       -48000       859840      1468288            D
+             allocate_systemdata                 ranv       -48000       811840      1468288            D
+           allocate_trajectories                mmomb      -160000       763840      1468288            D
+           allocate_trajectories                emomb      -480000       603840      1468288            D
+           allocate_trajectories                indxb          -80       123840      1468288            D
+            averages_allocations            mavg_buff        -8000       123760      1468288            D
+            averages_allocations       mavg_buff_proj        -1200       115760      1468288            D
+           allocate_measurements      mavg2_buff_proj         -400       114560      1468288            D
+            averages_allocations           indxb_avrg          -80       114160      1468288            D
+                allocate_damping        lambda1_array        -3200       114080      1468288            D
+                allocate_damping        lambda2_array        -3200       110880      1468288            D
+             allocate_systemdata                anumb        -1600       107680      1468288            D
+             allocate_systemdata                atype        -1600       106080      1468288            D
+             allocate_systemdata               Landeg        -3200       104480      1468288            D
+        allocate_hamiltoniandata            nlistsize        -1600       101280      1468288            D
+        allocate_hamiltoniandata                nlist        -9600        99680      1468288            D
+        allocate_hamiltoniandata                 aHam        -1600        90080      1468288            D
+        allocate_hamiltoniandata                ncoup       -19200        88480      1468288            D
+      allocate_dmhamiltoniandata           dmlistsize        -1600        69280      1468288            D
+      allocate_dmhamiltoniandata               dmlist        -9600        67680      1468288            D
+      allocate_dmhamiltoniandata              dm_vect       -57600        58080      1468288            D
+               allocate_energies           ene%energy          -40          480      1468288            D
+               allocate_energies           ene%ene_xc          -40          440      1468288            D
+               allocate_energies           ene%ene_dm          -40          400      1468288            D
+               allocate_energies           ene%ene_bq          -40          360      1468288            D
+               allocate_energies           ene%ene_pd          -40          320      1468288            D
+               allocate_energies         ene%ene_chir          -40          280      1468288            D
+               allocate_energies          ene%ene_ani          -40          240      1468288            D
+               allocate_energies         ene%ene_bqdm          -40          200      1468288            D
+               allocate_energies          ene%ene_ext          -40          160      1468288            D
+               allocate_energies          ene%ene_dip          -40          120      1468288            D
+               allocate_energies          ene%ene_lsf          -40           80      1468288            D
+               allocate_energies         ene%ene_pair          -40           40      1468288            D

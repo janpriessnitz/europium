@@ -1,0 +1,48 @@
+simid     EuAlOBasic
+ncell     20       20       1               System size
+BC        P         P         0                 Boundary conditions (0=vacuum,P=periodic)
+cell      1.00000   0.00000   0.00000
+          -0.50000   0.86603   0.00000
+          0.00000   0.00000   1.00000
+Sym       0                                     Symmetry of lattice (0 for no, 1 for cubic, 2 for 2d cubic, 3 for hexagonal)
+
+posfile   ./posfile
+exchange  ./jfile
+pd        ./pdfile
+momfile   ./momfile
+dm        ./dmfile
+do_prnstruct 1                                  Print lattice structure (0=no, 1=yes)
+
+Mensemble 1                                     Number of samples in ensemble averaging
+Initmag   1                                     (1=random, 2=cone, 3=spec., 4=file)
+mseed 1235
+tseed 5461
+
+ip_mode   H                                     Initial phase parameters
+ip_hfield 0 0 1
+ip_mcanneal 12
+10000 400
+10000 300
+10000 200
+10000 100
+10000 20
+10000 10
+10000 3
+10000 1
+10000 0.3
+10000 0.1
+10000 0.03
+10000 0.01
+
+mode      H                                     S=SD, M=MC
+temp      0.001                                Measurement phase parameters
+mcnstep     100000                                 --
+hfield 0 0 1
+
+do_avrg   Y                                     Measure averages
+avrg_step 1000
+
+do_tottraj Y                                    Measure moments
+tottraj_step   10000
+
+plotenergy 1
