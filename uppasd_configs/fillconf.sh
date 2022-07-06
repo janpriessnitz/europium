@@ -19,7 +19,6 @@ DST_DIR=$2
 mkdir -p $DST_DIR
 
 for f in $(ls $SRC_DIR); do
-  echo $f
   src_path=$SRC_DIR/$f
   dst_path=$DST_DIR/$f
   envsubst < $src_path > $dst_path
