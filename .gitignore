@@ -1,1 +1,3 @@
+.ipynb_checkpoints
 experiments/MHCurve/runs*
+experiments/hysteresis/run_*
