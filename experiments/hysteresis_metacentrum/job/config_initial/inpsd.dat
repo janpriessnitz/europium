@@ -14,17 +14,32 @@ dm        ./dmfile
 do_prnstruct 1                                  Print lattice structure (0=no, 1=yes)
 
 Mensemble $N_ENS                                     Number of samples in ensemble averaging
-Initmag   4                                     (1=random, 2=cone, 3=spec., 4=file)
+Initmag   1                                     (1=random, 2=cone, 3=spec., 4=file)
 mseed 1234
 tseed 5463
-restartfile ./prev_restart.EuAlOBas.out
 
+ip_mode   $MODE                                     Initial phase parameters
+ip_hfield $H_X $H_Y $H_Z
+ip_mcanneal 14
+10000 400
+10000 350
+10000 300
+10000 250
+10000 200
+10000 150
+10000 100
+10000 50
+10000 20
+10000 10
+10000 3
+10000 1
+10000 0.3
+10000 0.1
 
-mode      S                                     S=SD, M=MC
+mode      $MODE                                     S=SD, M=MC
 temp      0.1                                Measurement phase parameters
+mcnstep     50000                                 --
 hfield $H_X $H_Y $H_Z
-timestep  1e-14
-Nstep 3000000
 
 do_avrg   Y                                     Measure averages
 avrg_step 1000

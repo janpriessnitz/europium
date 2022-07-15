@@ -24,7 +24,7 @@ mode      S                                     S=SD, M=MC
 temp      0.1                                Measurement phase parameters
 hfield $H_X $H_Y $H_Z
 timestep  1e-14
-Nstep 3000000
+Nstep 1000000
 
 do_avrg   Y                                     Measure averages
 avrg_step 1000
