@@ -164,6 +164,7 @@ mode      {mode}                                     S=SD, M=MC
 temp      {temp}                                Measurement phase parameters
 Nstep {steps}                                   for SD
 timestep {timestep}                             for SD
+damping {damping}
 hfield {hx} {hy} {hz}
 '''
 
@@ -171,8 +172,8 @@ hfield {hx} {hy} {hz}
   def __init__(self):
     self.fname = "inpsd.dat"
     self.exp_name = "EXP_NAME"
-    self.size_x = 20
-    self.size_y = 20
+    self.size_x = 21
+    self.size_y = 21
     self.size_z = 1
     self.boundary_x = 'P'
     self.boundary_y = 'P'
@@ -205,7 +206,8 @@ hfield {hx} {hy} {hz}
     self.ip_mcanneal = AnnealSched()
     self.mode = 'M'
     self.temp = 0.1
-    self.timestep = 1e-14
+    self.timestep = 1e-15
+    self.damping = 0.05
     self.steps = 0
     self.hx = 0
     self.hy = 0

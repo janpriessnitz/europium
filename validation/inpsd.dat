@@ -1,0 +1,29 @@
+simid     EuAlOBasic
+ncell     81       81       1               System size
+BC        P         P         0                 Boundary conditions (0=vacuum,P=periodic)
+cell      1.00000   0.00000   0.00000
+          -0.50000   0.86603   0.00000
+          0.00000   0.00000   1.00000
+Sym       0                                     Symmetry of lattice (0 for no, 1 for cubic, 2 for 2d cubic, 3 for hexagonal)
+
+posfile   ./posfile
+exchange  ./jfile
+pd        ./pdfile
+momfile   ./momfile
+dm        ./dmfile
+do_prnstruct 1                                  Print lattice structure (0=no, 1=yes)
+
+Mensemble 1                                     Number of samples in ensemble averaging
+Initmag   4                                     (1=random, 2=cone, 3=spec., 4=file)
+restartfile manual.restart
+mseed 1234
+tseed 5463
+
+
+mode      S                                     S=SD, M=MC
+temp      0.1                                Measurement phase parameters
+Nstep     100                                 --
+timestep 1e-21
+hfield 0 0 0
+
+plotenergy 1

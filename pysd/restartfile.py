@@ -51,7 +51,25 @@ class Restartfile:
           self.mag.append(ens_mag)
           ens_mag = []
           last_ens = ens
-        ens_mag.append([float(absmom_str), float(momx_str), float(momy_str), float(momz_str)])
+        # hack: fortran prints extremely small numbers in a different format e. g.: 1.98532408-108 instead of 1.98532408E-108
+        try:
+          absmom = float(absmom_str)
+        except ValueError:
+          absmom = 0
+        try:
+          momx = float(momx_str)
+        except ValueError:
+          momx = 0
+        try:
+          momy = float(momy_str)
+        except ValueError:
+          momy = 0
+        try:
+          momz = float(momz_str)
+        except ValueError:
+          momz = 0
+        
+        ens_mag.append([absmom, momx, momy, momz])
     self.mag.append(ens_mag)
 
   def save_to_file(self, fname):

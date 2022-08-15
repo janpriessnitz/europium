@@ -15,15 +15,12 @@ do_prnstruct 1                                  Print lattice structure (0=no, 1
 
 Mensemble 1                                     Number of samples in ensemble averaging
 Initmag   1                                     (1=random, 2=cone, 3=spec., 4=file)
-mseed 1235
-tseed 5461
+mseed 1234
+tseed 5463
 
 ip_mode   H                                     Initial phase parameters
-ip_hfield 0 0 1
-ip_mcanneal 12
-10000 400
-10000 300
-10000 200
+ip_hfield 0 0 0
+ip_mcanneal 7
 10000 100
 10000 20
 10000 10
@@ -31,13 +28,11 @@ ip_mcanneal 12
 10000 1
 10000 0.3
 10000 0.1
-10000 0.03
-10000 0.01
 
 mode      H                                     S=SD, M=MC
-temp      0.001                                Measurement phase parameters
-mcnstep     100000                                 --
-hfield 0 0 1
+temp      0.1                                Measurement phase parameters
+mcnstep     10000                                 --
+hfield 0 0 0
 
 do_avrg   Y                                     Measure averages
 avrg_step 1000

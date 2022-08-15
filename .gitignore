@@ -5,3 +5,4 @@ experiments/hysteresis/run_*
 *.png
 *.mp4
 __pycache__/
+experiments/hysteresis_metacentrum/runs/

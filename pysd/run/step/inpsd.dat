@@ -1,0 +1,36 @@
+simid     EXP_NAME
+ncell     21       21       1               System size
+BC        P         P         0                 Boundary conditions (0=vacuum,P=periodic)
+cell      1   0   0
+          -0.5   0.86603   0
+          0   0   1
+Sym       0                                     Symmetry of lattice (0 for no, 1 for cubic, 2 for 2d cubic, 3 for hexagonal)
+
+posfile posfile
+exchange jfile
+momfile momfile
+pd pdfile
+dm dmfile
+
+do_prnstruct 0                                  Print lattice structure (0=no, 1=yes)
+
+Mensemble 1                                     Number of samples in ensemble averaging
+Initmag   4                                     (1=random, 2=cone, 3=spec., 4=file)
+mseed 2
+tseed 2
+restartfile restart.in
+
+
+ip_mode   M                                     Initial phase parameters
+ip_hfield 0 0 -10
+ip_mcanneal 0
+
+
+
+mode      S                                     S=SD, M=MC
+temp      1e-05                                Measurement phase parameters
+Nstep 20000                                   for SD
+timestep 1e-15                             for SD
+damping 0.05
+hfield 0 0 10.0
+

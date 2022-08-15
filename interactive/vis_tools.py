@@ -1,9 +1,9 @@
-#/usr/bin/python3
+#!/usr/bin/python3
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-
+import sys
 
 def show_traj(run_dir, exp_name="EuAlOBas", ens=0):
   coordfile = run_dir + "/coord."+exp_name+".out"
@@ -53,3 +53,7 @@ def show_traj(run_dir, exp_name="EuAlOBas", ens=0):
 
   # print("showing")
   plt.show()
+  plt.savefig("frame.png")
+
+if __name__ == "__main__":
+  show_traj(sys.argv[1])

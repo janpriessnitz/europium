@@ -20,7 +20,7 @@ tseed 5463
 
 #restartfile restart.EuAlOBas.out
 
-mode      M                                     S=SD, M=MC
-hfield 0 0 0.1
+mode        M                                   S=SD, M=MC
+hfield 0 0 0
 
 plotenergy 1

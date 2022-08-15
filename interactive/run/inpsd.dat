@@ -20,11 +20,11 @@ tseed 5463
 
 #restartfile restart.EuAlOBas.out
 
-mode      M                                     S=SD, M=MC
-hfield 0 0 0.1
+mode        M                                   S=SD, M=MC
+hfield 0 0 0
 
 plotenergy 1
-mcnstep 100000
-temp 400
+mcnstep 10000
+temp 0.01
 Initmag 4
 restartfile restart.EuAlOBas.out

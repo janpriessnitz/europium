@@ -1,0 +1,72 @@
+#  UppASD Input data 
+simid:
+                    EXP_NAME
+  
+# Physical constants
+Boltzman constant:
+                      1.38064852E-23
+Bohr magneton:
+                      9.27400999E-24
+ 
+# Structure data
+ncell:
+                    21  21  1
+BC:
+                    P  P  0
+cell:
+                     1.00000000E+00 0.00000000E+00 0.00000000E+00
+                    -5.00000000E-01 8.66030000E-01 0.00000000E+00
+                     0.00000000E+00 0.00000000E+00 1.00000000E+00
+positions:
+                    1  1   0.00000000E+00 0.00000000E+00 0.00000000E+00
+NA:
+                    1
+NT:
+                    1
+Sym:
+                    0
+Natom:
+                    441
+  
+# Simulation parameters
+LLG:
+                    1
+SDE:
+                    1
+Mensemble:
+                    1
+ 
+# Initial magnetization
+initmag:
+                    4
+restartfile:
+                    restart.in                         
+    
+**************** Rotation parameters            ****************
+Rotation                       0
+Rotation Angle    0.00000000E+00  0.00000000E+00  0.00000000E+00
+  
+**************** Demagnetization field          ****************
+Demag                          N               N               N
+Demag                          N
+Volume            0.00000000E+00
+  
+**************** Micro-wave field               ****************
+  
+**************** Initial phase                  ****************
+MC, SD, EM                       M
+Field             0.00000000E+00  0.00000000E+00 -1.00000000E+01
+nphase                         0
+MC steps, T :
+ 
+**************** Measurement phase              ****************
+MC, SD, MEP                         S
+Gradient				 N
+T                 1.00000000E-05
+Field             0.00000000E+00  0.00000000E+00  1.00000000E+01
+Lambda            5.00000000E-02  0.00000000E+00
+Nstep                      20000
+delta_t           1.00000000E-15
+   
+Tottraj                        N            1000              10
+No. trajectories               0
