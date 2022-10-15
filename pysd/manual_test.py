@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import restartfile
+from pysd_package import restartfile
 import numpy as np
 
 N = 81

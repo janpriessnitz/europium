@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 
-from restartfile import Restartfile, Coordfile
+from pysd_package.restartfile import Restartfile, Coordfile
 
 SD_PATH="/home/jp/UppASD/bin/sd.gfortran"
 

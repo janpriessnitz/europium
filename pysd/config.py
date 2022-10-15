@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import os
-from restartfile import Restartfile
+from pysd_package.restartfile import Restartfile
 
 class AConfigFile:
   def __init__(self):
@@ -24,7 +24,7 @@ class Posfile(AConfigFile):
 
   def __str__(self):
     return "posfile {}".format(self.fname)
-  
+
   def get_config_str(self):
     ret = ""
     for pos in self.positions:
@@ -39,7 +39,7 @@ class Exchangefile(AConfigFile):
 
   def __str__(self):
     return "exchange {}".format(self.fname)
-  
+
   def get_config_str(self):
     ret = ""
     for inter in self.interactions:
@@ -86,7 +86,7 @@ class Pdfile(AConfigFile):
 class Dmfile(AConfigFile):
   def __init__(self):
     self.fname = "dmfile"
-    # site num #1, atom type, x, y, z, DMx, DMy, DMz 
+    # site num #1, atom type, x, y, z, DMx, DMy, DMz
     self.interactions = []
 
   def __str__(self):

@@ -5,6 +5,12 @@ import matplotlib.pyplot as plt
 import matplotlib
 import matplotlib.animation as animation
 
+import pickle
+
+import scipy.optimize
+
+mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment
+
 def plot_mag(coordfile, restartfile, out_fname):
   cmap = matplotlib.cm.get_cmap('bwr')
 
@@ -19,7 +25,7 @@ def plot_mag(coordfile, restartfile, out_fname):
   for i in range(nAtoms):
     x, y, z = coordfile.coords[i]
     momx, momy, momz = restartfile.mag[ens][i][1:]
-    
+
     colorx=cmap((momx+1)/2)
     colory=cmap((momy+1)/2)
     colorz=cmap((momz+1)/2)
@@ -66,7 +72,7 @@ def anim_mag(coordfile, restartfiles, out_fname):
   for i in range(nAtoms):
     x, y, z = coordfile.coords[i]
     momx, momy, momz = restartfiles[0].mag[ens][i][1:]
-    
+
     colorx=cmap((momx+1)/2)
     colory=cmap((momy+1)/2)
     colorz=cmap((momz+1)/2)
@@ -101,7 +107,7 @@ def anim_mag(coordfile, restartfiles, out_fname):
     restartfile = restartfiles[j]
     for i in range(nAtoms):
       momx, momy, momz = restartfile.mag[ens][i][1:]
-      
+
       colorx=cmap((momx+1)/2)
       colory=cmap((momy+1)/2)
       colorz=cmap((momz+1)/2)
@@ -138,7 +144,7 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
   for i in range(nAtoms):
     x, y, z = coordfile.coords[i]
     momx, momy, momz = restartfiles[0].mag[ens][i][1:]
-    
+
     colorx=cmap((momx+1)/2)
     colory=cmap((momy+1)/2)
     colorz=cmap((momz+1)/2)
@@ -199,7 +205,7 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
     config = configs[j]
     for i in range(nAtoms):
       momx, momy, momz = restartfile.mag[ens][i][1:]
-      
+
       colorx=cmap((momx+1)/2)
       colory=cmap((momy+1)/2)
       colorz=cmap((momz+1)/2)
@@ -216,7 +222,7 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
     # ax21.set_ylim(np.array(my).min()-1, np.array(my).max()+1)
 
     hx.append(j)
-    hy.append(config.hz)
+    hy.append(config.hz / mRyToTesla)
     line22[0].set_data(hx, hy)
     ax22.set_ylim(np.array(hy).min()-1, np.array(hy).max()+1)
 
@@ -232,7 +238,7 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
     ax23.set_ylim(np.array(mhy).min(), np.array(mhy).max())
 
   anim = animation.FuncAnimation(fig, animate,
-                               frames=int(len(restartfiles)), interval=200)
+                               frames=range(0, int(len(restartfiles))), interval=200)
 
   FFwriter = animation.FFMpegWriter()
   anim.save(out_fname, writer = FFwriter)
@@ -241,3 +247,74 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
   #HTML(anim.to_html5_video())
 
 # plt.show()
+
+def get_E(m, deltaJ, dm, H):
+  if dm < 3**(1/2):
+    return 6*(1 - m**2)*(deltaJ - 1) - m*H
+  else:
+    return 6*(1 - m**2)*(deltaJ + 1/2 - np.sqrt(3)/2*dm) - m*H
+
+def get_theor_mag(deltaJ, dm, maxH):
+  xs = np.append(np.linspace(-maxH, maxH, 200), np.linspace(maxH, -maxH, 200))
+  ys = []
+  lastm = [-1]
+  for h in xs:
+    res = scipy.optimize.minimize(get_E, lastm, args=(deltaJ, dm, h), bounds=[(-1, 1)])
+    ys.append(lastm)
+    lastm = res.x
+  return xs, ys
+
+def plot_hysteresis(restartfiles, configs, out_fname):
+  deltaJ = configs[0].pdfile.interactions[0][7]
+  dm = abs(configs[0].dmfile.interactions[0][7])
+  fig, ax = plt.subplots(1, 1, figsize=(15, 7))
+  # MH curve
+  # ax.set_xlim(-2, 2)
+  ax.set_ylim(-1.1, 1.1)
+  ax.set_xlabel("H")
+  ax.set_ylabel("M")
+  xs = []
+  ys = []
+  lasth = 0
+  lastm = 0
+  for i in range(len(restartfiles)):
+    if lasth != configs[i].hz/ mRyToTesla:
+      xs.append(lasth)
+      ys.append(lastm)
+    lasth = configs[i].hz / mRyToTesla
+    lastm = restartfiles[i].avg_M()[2]
+  ax.scatter(xs, ys, color="black")
+
+  # print(xs)
+
+  xs2, ys2 = get_theor_mag(deltaJ, dm, np.abs(xs[1]))
+  ax.plot(xs2, ys2, color="red")
+  # print(xs, ys)
+
+  plt.title("deltaJ = %.1f, DM = %.1f" % (deltaJ, dm))
+
+  plt.savefig(out_fname)
+
+def plot_hysteresis_from_exp(experiment_file, out_fname):
+  with open(experiment_file, "rb") as fp:
+    experiment = pickle.load(fp)
+  plot_hysteresis(experiment["restartfiles"], experiment["configs"], out_fname)
+
+def anim_mag_from_exp(experiment_file, out_fname):
+  with open(experiment_file, "rb") as fp:
+    experiment = pickle.load(fp)
+  anim_mag_overview(experiment["coordfile"], experiment["restartfiles"], experiment["configs"], out_fname)
+
+
+def plot_hyst(res, out_fname):
+  mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment
+  config = res['configs'][1]
+  hs = [x.hz/mRyToTesla for x in res['configs']]
+  ms = [x.avg_M()[2] for x in res['restartfiles']]
+  fig = plt.figure()
+  plt.plot(hs, ms)
+  plt.ylim(-1.1, 1.1)
+  plt.title("Hysteresis loop AFM: Jx=-1, Jy=-1, Jz={}, D={}, T={} K".format(config.pdfile.interactions[0][7], config.dmfile.interactions[1][7], config.temp))
+  plt.xlabel("H")
+  plt.ylabel("M")
+  plt.savefig(out_fname)
