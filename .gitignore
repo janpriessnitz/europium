@@ -6,3 +6,9 @@ experiments/hysteresis/run_*
 *.mp4
 __pycache__/
 experiments/hysteresis_metacentrum/runs/
+UPPASDHEISDM2D.o*
+UPPASDHEISDM2D.e*
+experiment.out
+pysd/run/*
+**/run/*
+**/no*/**/runjob.sh

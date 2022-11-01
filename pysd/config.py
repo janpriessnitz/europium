@@ -148,6 +148,8 @@ ip_hfield {ip_hx} {ip_hy} {ip_hz}
 {ip_mcanneal}
 
 {main_phase}
+
+plotenergy {plotenergy}
 '''
 
   subtemplate_MC = \
@@ -212,6 +214,7 @@ hfield {hx} {hy} {hz}
     self.hx = 0
     self.hy = 0
     self.hz = 0
+    self.plotenergy = 0
 
   def get_config_str(self):
     if self.mode == 'S':
