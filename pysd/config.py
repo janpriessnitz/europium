@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import os
-from pysd_package.restartfile import Restartfile
+from pysd.restartfile import Restartfile
 
 class AConfigFile:
   def __init__(self):

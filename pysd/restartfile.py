@@ -68,7 +68,7 @@ class Restartfile:
           momz = float(momz_str)
         except ValueError:
           momz = 0
-
+        
         ens_mag.append([absmom, momx, momy, momz])
     self.mag.append(ens_mag)
 

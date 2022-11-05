@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 import matplotlib.animation as animation
 
+mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment
+
 def plot_mag(coordfile, restartfile, out_fname):
   cmap = matplotlib.cm.get_cmap('bwr')
 
@@ -170,9 +172,9 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
   my = []
   line21 = ax21.plot([], [])
   ax21.set_xlim(0, len(restartfiles))
-  ax21.set_ylim(-1, 1)
+  ax21.set_ylim(-1.1, 1.1)
   ax21.set_xlabel("t")
-  ax22.set_ylabel("M")
+  ax21.set_ylabel("M")
 
   hx = []
   hy = []
@@ -185,7 +187,7 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
 
   # MH curve
   line23 = ax23.plot([], [])
-  ax23.set_xlim(-2, 2)
+  # ax23.set_xlim(-2, 2)
   ax23.set_ylim(-1.1, 1.1)
   ax23.set_xlabel("H")
   ax23.set_ylabel("M")
@@ -217,8 +219,8 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
 
     hx.append(j)
     hy.append(config.hz)
-    line22[0].set_data(hx, hy)
-    ax22.set_ylim(np.array(hy).min()-1, np.array(hy).max()+1)
+    line22[0].set_data(hx, np.array(hy)/mRyToTesla)
+    ax22.set_ylim((np.array(hy).min()-1)/mRyToTesla, (np.array(hy).max()+1)/mRyToTesla)
 
     mhs[hy[-1]] = my[-1]
     mhx = []
@@ -227,15 +229,16 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
       mhx.append(k)
       mhy.append(v)
 
-    line23[0].set_data(mhx, mhy)
-    ax23.set_xlim(np.array(mhx).min(), np.array(mhx).max())
-    ax23.set_ylim(np.array(mhy).min(), np.array(mhy).max())
+    line23[0].set_data(np.array(mhx)/mRyToTesla, mhy)
+    ax23.set_xlim(np.array(mhx).min()/mRyToTesla, np.array(mhx).max()/mRyToTesla)
+    # ax23.set_ylim(np.array(mhy).min(), np.array(mhy).max())
 
   anim = animation.FuncAnimation(fig, animate,
                                frames=int(len(restartfiles)), interval=200)
 
-  FFwriter = animation.FFMpegWriter()
-  anim.save(out_fname, writer = FFwriter)
+  return anim
+  # FFwriter = animation.FFMpegWriter()
+  # anim.save(out_fname, writer = FFwriter)
 
   # HTML(anim.to_jshtml())
   #HTML(anim.to_html5_video())

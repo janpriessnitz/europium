@@ -6,9 +6,9 @@ import time
 import sys
 import pickle
 
-from pysd_package import config
-from pysd_package import launcher
-from pysd_package import vis
+from pysd import config
+from pysd import launcher
+from pysd import vis
 
 
 mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment

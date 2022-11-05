@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 
-from pysd_package.restartfile import Restartfile, Coordfile
+from pysd.restartfile import Restartfile, Coordfile
 
 SD_PATH = os.getenv("SD_PATH", "/home/jp/UppASD/bin/sd.gfortran")
 
@@ -21,9 +21,9 @@ class SDLauncher:
     shutil.rmtree(config_dir, ignore_errors=True)
     os.makedirs(config_dir, exist_ok=True)
     config.save_all_configs(config_dir)
-    p = subprocess.run(SD_PATH, cwd=config_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.run(SD_PATH, cwd=config_dir, capture_output=True)
     if p.returncode != 0 or len(p.stderr) > 0 or 'ERROR' in str(p.stdout):
-      return Result(config, p, None, None)
+      return Result(config, p, None)
     restartfile = Restartfile(os.path.join(config_dir, config.restartfile_fname()))
     if config.do_prnstruct == 1:
       coordfile = Coordfile(os.path.join(config_dir, config.coordfile_fname()))

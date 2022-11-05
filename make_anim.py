@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from pysd_package import vis
+from pysd import vis
 import pickle
 import os
 import sys
