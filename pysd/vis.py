@@ -21,7 +21,7 @@ def plot_mag(coordfile, restartfile, out_fname):
   for i in range(nAtoms):
     x, y, z = coordfile.coords[i]
     momx, momy, momz = restartfile.mag[ens][i][1:]
-    
+
     colorx=cmap((momx+1)/2)
     colory=cmap((momy+1)/2)
     colorz=cmap((momz+1)/2)
@@ -34,12 +34,12 @@ def plot_mag(coordfile, restartfile, out_fname):
   fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 3))
 
   # plt.figure(1, figsize=(10,10))
-  ax1.scatter(xs, ys, color=csx, s=30)
+  ax1.scatter(xs, ys, color=csx, s=10)
   ax1.set_title("X")
   # plt.colorbar()
 
   # plt.figure(2, figsize=(10,10))
-  ax2.scatter(xs, ys, color=csy, s=30)
+  ax2.scatter(xs, ys, color=csy, s=10)
   ax2.set_title("Y")
   # plt.colorbar()
 
@@ -68,7 +68,7 @@ def anim_mag(coordfile, restartfiles, out_fname):
   for i in range(nAtoms):
     x, y, z = coordfile.coords[i]
     momx, momy, momz = restartfiles[0].mag[ens][i][1:]
-    
+
     colorx=cmap((momx+1)/2)
     colory=cmap((momy+1)/2)
     colorz=cmap((momz+1)/2)
@@ -103,7 +103,7 @@ def anim_mag(coordfile, restartfiles, out_fname):
     restartfile = restartfiles[j]
     for i in range(nAtoms):
       momx, momy, momz = restartfile.mag[ens][i][1:]
-      
+
       colorx=cmap((momx+1)/2)
       colory=cmap((momy+1)/2)
       colorz=cmap((momz+1)/2)
@@ -140,7 +140,7 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
   for i in range(nAtoms):
     x, y, z = coordfile.coords[i]
     momx, momy, momz = restartfiles[0].mag[ens][i][1:]
-    
+
     colorx=cmap((momx+1)/2)
     colory=cmap((momy+1)/2)
     colorz=cmap((momz+1)/2)
@@ -201,7 +201,7 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
     config = configs[j]
     for i in range(nAtoms):
       momx, momy, momz = restartfile.mag[ens][i][1:]
-      
+
       colorx=cmap((momx+1)/2)
       colory=cmap((momy+1)/2)
       colorz=cmap((momz+1)/2)
