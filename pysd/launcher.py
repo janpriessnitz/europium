@@ -23,7 +23,8 @@ class SDLauncher:
     config.save_all_configs(config_dir)
     p = subprocess.run(SD_PATH, cwd=config_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if p.returncode != 0 or len(p.stderr) > 0 or 'ERROR' in str(p.stdout):
-      return Result(config, p, None)
+      print(p)
+      return Result(config, p, None, None)
     restartfile = Restartfile(os.path.join(config_dir, config.restartfile_fname()))
     if config.do_prnstruct == 1:
       coordfile = Coordfile(os.path.join(config_dir, config.coordfile_fname()))
