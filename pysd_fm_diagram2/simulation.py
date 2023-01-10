@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # Reproducing https://arxiv.org/pdf/2206.09060.pdf
 
@@ -16,7 +16,7 @@ from pysd import vis
 mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment
 
 def get_config(dm, hx, hz):
-  nSteps = 100000
+  nSteps = 10000
   init_temp = 500
   fin_temp = 0.01
   nTemps = 50

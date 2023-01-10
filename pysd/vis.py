@@ -52,6 +52,7 @@ def plot_mag(coordfile, restartfile, out_fname):
 
   # print("showing")
   plt.savefig(out_fname)
+  plt.close()
 
 def anim_mag(coordfile, restartfiles, out_fname):
   cmap = matplotlib.cm.get_cmap('bwr')
