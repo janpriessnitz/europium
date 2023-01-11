@@ -16,14 +16,14 @@ from pysd import vis
 mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment
 
 def get_config(dm, hx, hz):
-  nSteps = 10000
+  nSteps = 2000
   init_temp = 500
-  fin_temp = 0.01
-  nTemps = 50
+  fin_temp = 40
+  nTemps = 13
 
   c = config.InpsdFile()
-  c.size_x = 180
-  c.size_y = 180
+  c.size_x = 90
+  c.size_y = 90
   c.exchangefile.interactions = [
     [1, 1, 1, 0, 0, 1],
     [1, 1, 0.50000,   0.86603,   0.00000, 1],
@@ -84,6 +84,7 @@ def run_sim(dm, hx, hz):
     pickle.dump(result, fp)
 
   vis.plot_mag(res.coordfile, res.restartfile, "mag.png")
+  return res
 
 if __name__ == "__main__":
   run_sim(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]))
