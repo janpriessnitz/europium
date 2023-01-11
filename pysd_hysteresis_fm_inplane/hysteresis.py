@@ -23,27 +23,32 @@ def get_hyst(dm, temp):
 #       return np.abs(6*padding*2*(deltaJ + 1/2 - 3**(1/2)/2*dm))*mRyToTesla + 10
 
   # maxH = get_maxH(deltaJ, dm)
-  maxH = 20
-  smallH = 5
+  maxH = 2*mRyToTesla
   init_h = -maxH
 
   c = config.InpsdFile()
-  c.pdfile.interactions = [
-  [1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0],
-  [1, 1, 0.50000,   0.86603,   0.00000, 1, 1, 1, 0, 0, 0],
-  [1, 1, -0.50000,   0.86603,   0.00000, 1, 1, 1, 0, 0, 0],
-  [1, 1, -1, 0, 0, 1, 1, 1, 0, 0, 0],
-  [1, 1, 0.50000,   -0.86603,   0.00000, 1, 1, 1, 0, 0, 0],
-  [1, 1, -0.50000,  -0.86603,   0.00000, 1, 1, 1, 0, 0, 0],
-  ]
+  c.size_x = 90
+  c.size_y = 90
+  c.symmetry = 0
+  c.exchangefile.interactions = [
+    [1, 1, 1, 0, 0, 1],
+    [1, 1, -1, 0, 0, 1],
+    [1, 1, 0.5, -0.86603, 0, 1],
+    [1, 1, -0.5, 0.86603, 0, 1],
+    [1, 1, 0.5, 0.86603, 0, 1],
+    [1, 1, -0.5, -0.86603, 0, 1],
+    ]
+
+
   c.dmfile.interactions = [
-  [1, 1, 1, 0, 0, 0, 0, -dm],
-  [1, 1, 0.50000, 0.86603, 0.00000, 0, 0, dm],
-  [1, 1, -0.50000, 0.86603, 0.00000, 0, 0, -dm],
-  [1, 1, -1, 0, 0, 0, 0, dm],
-  [1, 1, 0.50000, -0.86603, 0.00000, 0, 0, dm],
-  [1, 1, -0.50000, -0.86603, 0.00000, 0, 0, -dm],
-  ]
+      [1, 1, 1, 0, 0, 0, 0, dm],
+      [1, 1, 0.50000, 0.86603, 0.00000, 0, 0, -dm],
+      [1, 1, -0.50000, 0.86603, 0.00000, 0, 0, dm],
+      [1, 1, -1, 0, 0, 0, 0, -dm],
+      [1, 1, 0.50000, -0.86603, 0.00000, 0, 0, -dm],
+      [1, 1, -0.50000, -0.86603, 0.00000, 0, 0, dm],
+    ]
+
   c.ip_hx = init_h
   c.hx = init_h  # hack for visualization
   c.plotenergy = 1
@@ -82,28 +87,14 @@ def get_hyst(dm, temp):
   step_config.mseed = 2
   step_config.tseed = 2
 
-  def equilibrize(conf):
-    # def is_equilibrium(vals):
-    #   # return True
-    #   # determines whether equilibrium is achieved based on detecting a trend in `vals`
-    #   vals = np.array(vals)
-    #   p, cov = np.polyfit(np.arange(len(vals)), vals, 1, cov=True)
-    #   return np.abs(p[0]) < np.sqrt(cov[0][0]) or np.abs(p[0]) < 1e-9  # 1e-9 is negligible
-
-    # lookback_window = 5
-    # magzs = []
-    # while True:
-    res = l.run(conf, "run/step/")
+  for hx in np.linspace(-maxH, maxH, 40):
+    print("\nhx: {}".format(hx))
+    step_config.hx = hx
+    res = l.run(step_config, "run/step/")
     restartfiles_history.append(res.restartfile)
     configs_history.append(copy.deepcopy(res.config))
-    # res.restartfile.avg_M()[2] is the average z-component of magnetization
-    # magzs.append(res.restartfile.avg_M()[2])
-    conf.restartfile = res.restartfile
+    step_config.restartfile = res.restartfile
 
-  for hx in np.append(np.linspace(-maxH, -smallH, 8), np.append(np.linspace(-smallH, smallH, 120), np.linspace(smallH, maxH, 8))):
-    print("hx: {}".format(hx))
-    step_config.hx = hx
-    equilibrize(step_config)
     print("M: {}".format(restartfiles_history[-1].avg_M()))
 
   result = {"restartfiles": restartfiles_history, "configs": configs_history, "coordfile": coordfile}
