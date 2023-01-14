@@ -45,7 +45,7 @@ def plot_mag(coordfile, restartfile, out_fname):
 
 
   # plt.figure(3, figsize=(10,10))
-  sc3 = ax3.scatter(xs, ys, s=30)
+  sc3 = ax3.scatter(xs, ys, s=10)
   ax3.set_title("Z")
   sc3.set(color=csz)
   plt.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=matplotlib.colors.Normalize(vmin=-1, vmax=1)))
@@ -82,18 +82,18 @@ def anim_mag(coordfile, restartfiles, out_fname):
   fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 3))
 
   # plt.figure(1, figsize=(10,10))
-  sc1 = ax1.scatter(xs, ys, color=csx, s=30)
+  sc1 = ax1.scatter(xs, ys, color=csx, s=10)
   ax1.set_title("X")
   # plt.colorbar()
 
   # plt.figure(2, figsize=(10,10))
-  sc2 = ax2.scatter(xs, ys, color=csy, s=30)
+  sc2 = ax2.scatter(xs, ys, color=csy, s=10)
   ax2.set_title("Y")
   # plt.colorbar()
 
 
   # plt.figure(3, figsize=(10,10))
-  sc3 = ax3.scatter(xs, ys, s=30)
+  sc3 = ax3.scatter(xs, ys, s=10)
   ax3.set_title("Z")
   sc3.set(color=csz)
   plt.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=matplotlib.colors.Normalize(vmin=-1, vmax=1)))
@@ -154,17 +154,17 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
   fig, ((ax1, ax2, ax3), (ax21, ax22, ax23)) = plt.subplots(2, 3, figsize=(15, 7))
 
   # plt.figure(1, figsize=(10,10))
-  sc1 = ax1.scatter(xs, ys, color=csx, s=30)
+  sc1 = ax1.scatter(xs, ys, color=csx, s=10)
   ax1.set_title("X")
   # plt.colorbar()
 
   # plt.figure(2, figsize=(10,10))
-  sc2 = ax2.scatter(xs, ys, color=csy, s=30)
+  sc2 = ax2.scatter(xs, ys, color=csy, s=10)
   ax2.set_title("Y")
   # plt.colorbar()
 
   # plt.figure(3, figsize=(10,10))
-  sc3 = ax3.scatter(xs, ys, s=30)
+  sc3 = ax3.scatter(xs, ys, s=10)
   ax3.set_title("Z")
   sc3.set(color=csz)
   plt.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=matplotlib.colors.Normalize(vmin=-1, vmax=1)))
@@ -214,12 +214,12 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
     sc3.set(color=csz)
 
     mx.append(j)
-    my.append(restartfile.avg_M()[2])
+    my.append(restartfile.avg_M()[0])
     line21[0].set_data(mx, my)
     # ax21.set_ylim(np.array(my).min()-1, np.array(my).max()+1)
 
     hx.append(j)
-    hy.append(config.hz)
+    hy.append(config.hx)
     line22[0].set_data(hx, np.array(hy)/mRyToTesla)
     ax22.set_ylim((np.array(hy).min()-1)/mRyToTesla, (np.array(hy).max()+1)/mRyToTesla)
 

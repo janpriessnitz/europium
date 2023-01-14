@@ -23,8 +23,8 @@ def get_hyst(dm, temp):
 #       return np.abs(6*padding*2*(deltaJ + 1/2 - 3**(1/2)/2*dm))*mRyToTesla + 10
 
   # maxH = get_maxH(deltaJ, dm)
-  maxH = 2*mRyToTesla
-  init_h = -maxH
+  maxH = 7
+  init_h = -maxH*mRyToTesla
 
   c = config.InpsdFile()
   c.size_x = 90
@@ -80,16 +80,17 @@ def get_hyst(dm, temp):
 
   step_config = copy.deepcopy(c)
   step_config.mode = 'S'
-  step_config.steps = 20000
+  step_config.steps = 10000
   step_config.initmag = 4
   step_config.restartfile = init_res.restartfile
   step_config.temp = temp
   step_config.mseed = 2
   step_config.tseed = 2
 
-  for hx in np.linspace(-maxH, maxH, 40):
+  for hx in np.append(np.linspace(-maxH, maxH, 100), np.linspace(maxH, -maxH, 100)):
+  # for hx in [-2, -1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 10]:
     print("\nhx: {}".format(hx))
-    step_config.hx = hx
+    step_config.hx = hx*mRyToTesla
     res = l.run(step_config, "run/step/")
     restartfiles_history.append(res.restartfile)
     configs_history.append(copy.deepcopy(res.config))
