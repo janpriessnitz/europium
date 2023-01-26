@@ -1,5 +1,5 @@
 #PBS -N UPPASDHEISDM2D
-#PBS -l select=1:ncpus=16:mem=4gb:scratch_local=50gb:cluster=^haldir
+#PBS -l select=1:ncpus=12:mem=4gb:scratch_local=50gb:cluster=^haldir
 #PBS -l walltime=24:00:00
 
 # additional info files
