@@ -22,8 +22,8 @@ def get_config(dm, hx, hz):
   nTemps = 25
 
   c = config.InpsdFile()
-  c.size_x = 90
-  c.size_y = 90
+  c.size_x = 20
+  c.size_y = 20
   c.exchangefile.interactions = [
     [1, 1, 1, 0, 0, 1],
     [1, 1, 0.50000,   0.86603,   0.00000, 1],

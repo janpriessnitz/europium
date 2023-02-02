@@ -32,21 +32,33 @@ def plot_mag(coordfile, restartfile, out_fname):
     csz.append(colorz)
 
   fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 3))
+  
+  ax1.set_facecolor("lightgrey")
+  ax2.set_facecolor("lightgrey")
+  ax3.set_facecolor("lightgrey")
+  
+  ax1.set_xticks([])
+  ax1.set_yticks([])
+  ax2.set_xticks([])
+  ax2.set_yticks([])
+  ax3.set_xticks([])
+  ax3.set_yticks([])
+
 
   # plt.figure(1, figsize=(10,10))
-  ax1.scatter(xs, ys, color=csx, s=10)
-  ax1.set_title("X")
+  ax1.scatter(xs, ys, color=csx, s=15)
+  ax1.set_title("Mx")
   # plt.colorbar()
 
   # plt.figure(2, figsize=(10,10))
-  ax2.scatter(xs, ys, color=csy, s=10)
-  ax2.set_title("Y")
+  ax2.scatter(xs, ys, color=csy, s=15)
+  ax2.set_title("My")
   # plt.colorbar()
 
 
   # plt.figure(3, figsize=(10,10))
-  sc3 = ax3.scatter(xs, ys, s=10)
-  ax3.set_title("Z")
+  sc3 = ax3.scatter(xs, ys, s=15)
+  ax3.set_title("Mz")
   sc3.set(color=csz)
   plt.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=matplotlib.colors.Normalize(vmin=-1, vmax=1)))
 
