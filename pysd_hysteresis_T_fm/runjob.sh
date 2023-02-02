@@ -1,5 +1,5 @@
 #PBS -N UPPASDHEISDM2D
-#PBS -l select=1:ncpus=8:mem=4gb:scratch_local=50gb:cluster=^haldir
+#PBS -l select=1:ncpus=2:mem=4gb:scratch_local=50gb:cluster=^haldir
 #PBS -l walltime=24:00:00
 
 # additional info files
@@ -30,7 +30,8 @@ cd $SCR || exit
 
 # run simulation
 export SD_PATH=/storage/praha1/home/jpriessnitz/UppASD/source/sd
-python /storage/praha1/home/jpriessnitz/pysd_hysteresis_T_fm/hysteresis.py $DM $TEMP
+export PYTHONPATH=$PYTHONPATH:/storage/praha1/home/jpriessnitz/europium
+python /storage/praha1/home/jpriessnitz/pysd_hysteresis_T_fm/hysteresis.py $DM $TEMP $STEPS
 #/storage/praha1/home/balaz/local/UppASD-master-ifort/source/sd
 
 
