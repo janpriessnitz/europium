@@ -2,36 +2,23 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib
+import matplotlib as mpl
 import matplotlib.animation as animation
 
 mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment
 
 def plot_mag(coordfile, restartfile, out_fname):
-  cmap = matplotlib.cm.get_cmap('bwr')
-
-  xs = []
-  ys = []
-  csx = []
-  csy = []
-  csz = []
-
-  nAtoms = len(coordfile.coords)
+  cmap = mpl.cm.get_cmap('bwr')
+  coords = coordfile.coords()
   ens = 0
-  for i in range(nAtoms):
-    x, y, z = coordfile.coords[i]
-    momx, momy, momz = restartfile.mag[ens][i][1:]
 
-    colorx=cmap((momx+1)/2)
-    colory=cmap((momy+1)/2)
-    colorz=cmap((momz+1)/2)
-    xs.append(x)
-    ys.append(y)
-    csx.append(colorx)
-    csy.append(colory)
-    csz.append(colorz)
+  xs, ys, zs = coords.T
+  momxs, momys, momzs = restartfile.mag[ens].T[1:]
+  csx = cmap((momxs+1)/2)
+  csy = cmap((momys+1)/2)
+  csz = cmap((momzs+1)/2)
 
-  fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 3))
+  fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(18, 4), width_ratios=(1, 1, 1, 0.05))
   
   ax1.set_facecolor("lightgrey")
   ax2.set_facecolor("lightgrey")
@@ -44,30 +31,67 @@ def plot_mag(coordfile, restartfile, out_fname):
   ax3.set_xticks([])
   ax3.set_yticks([])
 
-
-  # plt.figure(1, figsize=(10,10))
-  ax1.scatter(xs, ys, color=csx, s=15)
+  ax1.scatter(xs, ys, color=csx, s=5)
   ax1.set_title("Mx")
-  # plt.colorbar()
 
-  # plt.figure(2, figsize=(10,10))
-  ax2.scatter(xs, ys, color=csy, s=15)
+  ax2.scatter(xs, ys, color=csy, s=5)
   ax2.set_title("My")
-  # plt.colorbar()
 
-
-  # plt.figure(3, figsize=(10,10))
-  sc3 = ax3.scatter(xs, ys, s=15)
+  ax3.scatter(xs, ys, color=csz, s=5)
   ax3.set_title("Mz")
-  sc3.set(color=csz)
-  plt.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=matplotlib.colors.Normalize(vmin=-1, vmax=1)))
+  
+  mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical')
 
-  # print("showing")
   plt.savefig(out_fname)
   plt.close()
 
+def anim_mag_direct(coordfile, moms, out_fname):
+  cmap = mpl.cm.get_cmap('bwr')
+  coords = coordfile.coords()
+
+  xs, ys, zs = coords.T
+ 
+  momxs, momys, momzs = moms[0].T
+  csx = cmap((momxs+1)/2)
+  csy = cmap((momys+1)/2)
+  csz = cmap((momzs+1)/2)
+
+  fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(18, 4), width_ratios=(1, 1, 1, 0.05))
+  
+  ax1.set_facecolor("lightgrey")
+  ax2.set_facecolor("lightgrey")
+  ax3.set_facecolor("lightgrey")
+
+  sc1 = ax1.scatter(xs, ys, color=csx, s=5)
+  ax1.set_title("Mx")
+
+  sc2 = ax2.scatter(xs, ys, color=csy, s=5)
+  ax2.set_title("My")
+
+  sc3 = ax3.scatter(xs, ys, s=5)
+  ax3.set_title("Mz")
+  
+  mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical')
+  
+  # animation function.  This is called sequentially
+  def animate(j):
+    momxs, momys, momzs = moms[j].T
+    csx = cmap((momxs+1)/2)
+    csy = cmap((momys+1)/2)
+    csz = cmap((momzs+1)/2)
+
+    sc1.set(color=csx)
+    sc2.set(color=csy)
+    sc3.set(color=csz)
+
+  anim = animation.FuncAnimation(fig, animate,
+                                 frames=moms.shape[0], interval=200)
+
+  FFwriter = animation.FFMpegWriter()
+  anim.save(out_fname, writer = FFwriter)
+
 def anim_mag(coordfile, restartfiles, out_fname):
-  cmap = matplotlib.cm.get_cmap('bwr')
+  cmap = mpl.cm.get_cmap('bwr')
 
   xs = []
   ys = []
@@ -108,7 +132,7 @@ def anim_mag(coordfile, restartfiles, out_fname):
   sc3 = ax3.scatter(xs, ys, s=10)
   ax3.set_title("Z")
   sc3.set(color=csz)
-  plt.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=matplotlib.colors.Normalize(vmin=-1, vmax=1)))
+  plt.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=mpl.colors.Normalize(vmin=-1, vmax=1)))
 
 
   # animation function.  This is called sequentially
@@ -139,7 +163,7 @@ def anim_mag(coordfile, restartfiles, out_fname):
 # plt.show()
 
 def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
-  cmap = matplotlib.cm.get_cmap('bwr')
+  cmap = mpl.cm.get_cmap('bwr')
 
   xs = []
   ys = []
@@ -179,7 +203,7 @@ def anim_mag_overview(coordfile, restartfiles, configs, out_fname):
   sc3 = ax3.scatter(xs, ys, s=10)
   ax3.set_title("Z")
   sc3.set(color=csz)
-  plt.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=matplotlib.colors.Normalize(vmin=-1, vmax=1)))
+  plt.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=mpl.colors.Normalize(vmin=-1, vmax=1)))
 
   mx = []
   my = []
