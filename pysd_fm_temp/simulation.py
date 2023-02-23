@@ -16,14 +16,18 @@ from pysd import vis
 mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment
 
 def get_config(dm, hx, hz, T):
-  nSteps = 10000
-  init_temp = 500
+  nSteps = 50000
+  init_temp = 250
   fin_temp = T
-  nTemps = 25
+  nTemps = 50
 
   c = config.InpsdFile()
   c.size_x = 60
   c.size_y = 60
+
+  c.momfile.moms = [[1, 1, 1.00000, 0.0, 0.0, 1.0]]
+  c.initmag = 3
+
   c.exchangefile.interactions = [
     [1, 1, 1, 0, 0, 1],
     [1, 1, 0.50000,   0.86603,   0.00000, 1],
@@ -41,7 +45,7 @@ def get_config(dm, hx, hz, T):
       [1, 1, 0.50000, -0.86603, 0.00000, 0, 0, -dm],
       [1, 1, -0.50000, -0.86603, 0.00000, 0, 0, dm],
     ]
-  c.m_ens = 1
+  c.m_ens = 20
   c.ip_hx = hx
   c.hx = hx
   c.ip_hz = hz
@@ -57,7 +61,7 @@ def get_config(dm, hx, hz, T):
   c.tseed = int(time.time())
 
   # measurement phase
-  c.steps = nSteps
+  c.steps = nSteps*4
   c.temp = fin_temp
   return c
 
