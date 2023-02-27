@@ -1,5 +1,7 @@
 #/usr/bin/python3
 
+from datetime import datetime
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -46,12 +48,13 @@ def plot_mag(coordfile, restartfile, out_fname):
   plt.close()
 
 def anim_mag_direct(coordfile, moms, out_fname):
+  print("begin anim_mag_direct [{}]".format(datetime.now()))
   cmap = mpl.cm.get_cmap('bwr')
   coords = coordfile.coords()
 
-  xs, ys, zs = coords.T
+  xs, ys, zs = coords['x'], coords['y'], coords['z']
  
-  momxs, momys, momzs = moms[0].T
+  momxs, momys, momzs = moms[0]['M_x'], moms[0]['M_y'], moms[0]['M_z']
   csx = cmap((momxs+1)/2)
   csy = cmap((momys+1)/2)
   csz = cmap((momzs+1)/2)
@@ -73,9 +76,11 @@ def anim_mag_direct(coordfile, moms, out_fname):
   
   mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical')
   
-  # animation function.  This is called sequentially
+  def animate_init():
+    return (sc1, sc2, sc3)
+
   def animate(j):
-    momxs, momys, momzs = moms[j].T
+    momxs, momys, momzs = moms[j]['M_x'], moms[j]['M_y'], moms[j]['M_z']
     csx = cmap((momxs+1)/2)
     csy = cmap((momys+1)/2)
     csz = cmap((momzs+1)/2)
@@ -83,12 +88,76 @@ def anim_mag_direct(coordfile, moms, out_fname):
     sc1.set(color=csx)
     sc2.set(color=csy)
     sc3.set(color=csz)
+    return (sc1, sc2, sc3)
 
-  anim = animation.FuncAnimation(fig, animate,
+  anim = animation.FuncAnimation(fig, animate, init_func=animate_init,
+                                 frames=moms.shape[0], interval=200, blit=True)
+
+  FFwriter = animation.FFMpegWriter()
+  anim.save(out_fname, writer = FFwriter)
+  print("end anim_mag_direct [{}]".format(datetime.now()))
+
+def anim_mag_direct_imshow(coordfile, moms, out_fname):
+  print("begin anim_mag_direct_imshow [{}]".format(datetime.now()))
+
+  cmap = mpl.cm.get_cmap('bwr')
+  coords = coordfile.coords()
+
+  # xs, ys, zs = coords['x'], coords['y'], coords['z']
+ 
+  momxs, momys, momzs = moms[0]['M_x'], moms[0]['M_y'], moms[0]['M_z']
+  # csx = cmap((momxs+1)/2)
+  # csy = cmap((momys+1)/2)
+  # csz = cmap((momzs+1)/2)
+
+  L = int(np.sqrt(momxs.shape[0]))
+
+  momxs = momxs.reshape((L, L))
+  momys = momys.reshape((L, L))
+  momzs = momzs.reshape((L, L))
+
+
+  fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(18, 4), width_ratios=(1, 1, 1, 0.05))
+  
+  ax1.set_facecolor("lightgrey")
+  ax2.set_facecolor("lightgrey")
+  ax3.set_facecolor("lightgrey")
+    
+  imx = ax1.imshow(momxs, cmap='bwr')
+  ax1.set_title("Mx")
+
+  imy = ax2.imshow(momys, cmap='bwr')
+  ax2.set_title("My")
+
+  imz = ax3.imshow(momzs, cmap='bwr')
+  ax3.set_title("Mz")
+  
+  mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical')
+  
+  def animate_init():
+    return imx, imy, imz
+
+  def animate(j):
+    momxs, momys, momzs = moms[j]['M_x'], moms[j]['M_y'], moms[j]['M_z']
+
+    momxs = momxs.reshape((L, L))
+    momys = momys.reshape((L, L))
+    momzs = momzs.reshape((L, L))
+
+    print("momzs", momzs)
+
+    imx.set_array(momxs)
+    imy.set_array(momys)
+    imz.set_array(momzs)
+    return imx, imy, imz
+
+  anim = animation.FuncAnimation(fig, animate, init_func=animate_init,
                                  frames=moms.shape[0], interval=200)
 
   FFwriter = animation.FFMpegWriter()
   anim.save(out_fname, writer = FFwriter)
+  print("end anim_mag_direct_imshow [{}]".format(datetime.now()))
+
 
 def anim_mag(coordfile, restartfiles, out_fname):
   cmap = mpl.cm.get_cmap('bwr')

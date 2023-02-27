@@ -16,8 +16,8 @@ SDsteps = 1000
 
 def do_flip(dm, temp, Hz):
   c = config.InpsdFile()
-  c.size_x = 3
-  c.size_y = 3
+  c.size_x = 10
+  c.size_y = 10
 
   c.momfile.moms = [[1, 1, 1.00000, 0.0, 0.0, -1.0]]
   c.initmag = 3
@@ -51,8 +51,9 @@ def do_flip(dm, temp, Hz):
 
   c.do_prnstruct = 1
   c.do_tottraj = 'Y'
-  c.tottraj_step = 10
-  c.do_cumu = 'Y'
+  c.tottraj_step = 100
+  c.do_cumu = 'N'
+  c.cumu_step = 1
   c.do_avrg = 'Y'
   c.avrg_step = 100
   c.plotenergy = 1
@@ -60,11 +61,9 @@ def do_flip(dm, temp, Hz):
 
   l = launcher.SDLauncher()
   res = l.run(c, "run/")
-  return res
 
-  print(res.momentsfile.data.shape)
-
-  vis.plot_mag(res.coordfile, res.restartfile, "mag.png")
+  vis.anim_mag_direct(res.coordfile, res.momentsfile.moments()[0], "mag.mp4")
+  vis.anim_mag_direct_imshow(res.coordfile, res.momentsfile.moments()[0], "mag_imshow.mp4")
 
 
 if __name__ == "__main__":

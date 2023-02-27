@@ -1,6 +1,7 @@
 import os
 import shutil
 import subprocess
+from datetime import datetime
 
 from pysd.restartfile import Restartfile
 from pysd.outputfile import AveragesFile, CoordFile, CumuFile, EnergyFile, MomentsFile, StructFile
@@ -27,7 +28,9 @@ class SDLauncher:
     shutil.rmtree(config_dir, ignore_errors=True)
     os.makedirs(config_dir, exist_ok=True)
     config.save_all_configs(config_dir)
+    print("launching UppASD [{}]".format(datetime.now()))
     p = subprocess.run(SD_PATH, cwd=config_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print("UppASD finished [{}]".format(datetime.now()))
     if p.returncode != 0 or len(p.stderr) > 0 or 'ERROR' in str(p.stdout):
       print(p)
       return Result(config, p, None, None)
