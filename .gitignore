@@ -14,3 +14,5 @@ pysd/run/*
 **/no*/**/runjob.sh
 old/experiments/MHCurve/runs*
 netket/netket
+*.mpack
+*.log
