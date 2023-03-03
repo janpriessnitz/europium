@@ -3,16 +3,17 @@ import numpy as np
 from typing import Tuple, Union, List, Optional
 
 
-class DM(nk.GraphOperator):
+class DMOp(nk.operator.GraphOperator):
     r"""
     The Heisenberg hamiltonian on a lattice.
     """
 
     def __init__(
         self,
-        hilbert: nk.AbstractHilbert,
-        graph: nk.AbstractGraph,
+        hilbert: nk.hilbert.AbstractHilbert,
+        graph: nk.graph.AbstractGraph,
         J: float = 1,
+        H: float = 0,
         DM: float = 0,
         *,
         acting_on_subspace: Union[List[int], int] = None,
@@ -72,12 +73,22 @@ class DM(nk.GraphOperator):
             ]
         )
 
+        H_op = np.array(
+            [
+                [1, 0],
+                [0, -1],
+            ]
+        )
+
+        site_ops = [H_op]
+
         bond_ops = [J * J_op + DM * DM_op]
         bond_ops_colors = []
 
         super().__init__(
             hilbert,
             graph,
+            site_ops=site_ops,
             bond_ops=bond_ops,
             bond_ops_colors=bond_ops_colors,
             acting_on_subspace=acting_on_subspace,
