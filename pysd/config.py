@@ -150,6 +150,12 @@ ip_hfield {ip_hx} {ip_hy} {ip_hz}
 {main_phase}
 
 plotenergy {plotenergy}
+do_avrg {do_avrg}
+avrg_step {avrg_step}
+do_tottraj {do_tottraj}
+tottraj_step {tottraj_step}
+do_cumu {do_cumu}
+cumu_step {cumu_step}
 '''
 
   subtemplate_MC = \
@@ -215,6 +221,12 @@ hfield {hx} {hy} {hz}
     self.hy = 0
     self.hz = 0
     self.plotenergy = 0
+    self.do_avrg = 'N'
+    self.avrg_step = 1000
+    self.do_tottraj = 'N'
+    self.tottraj_step = 1000
+    self.do_cumu = 'N'
+    self.cumu_step = 1000
 
   def get_config_str(self):
     if self.mode == 'S':
@@ -237,6 +249,22 @@ hfield {hx} {hy} {hz}
 
   def coordfile_fname(self):
     return "coord.{}.out".format(self.exp_name[:8] if len(self.exp_name) > 8 else self.exp_name)
+
+  def structfile_fname(self):
+    return "struct.{}.out".format(self.exp_name[:8] if len(self.exp_name) > 8 else self.exp_name)
+    
+  def momentsfile_fname(self):
+    return "moment.{}.out".format(self.exp_name[:8] if len(self.exp_name) > 8 else self.exp_name)
+
+  def averagesfile_fname(self):
+    return "averages.{}.out".format(self.exp_name[:8] if len(self.exp_name) > 8 else self.exp_name)
+
+  def totenergyfile_fname(self):
+    return "totenergy.{}.out".format(self.exp_name[:8] if len(self.exp_name) > 8 else self.exp_name)
+
+  def cumulantsfile_fname(self):
+    return "cumulants.{}.out".format(self.exp_name[:8] if len(self.exp_name) > 8 else self.exp_name)
+
 
 if __name__ == "__main__":
   i = InpsdFile()
