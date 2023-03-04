@@ -1,5 +1,5 @@
 #PBS -N UPPASDHEISDM2D
-#PBS -l select=1:ncpus=2:mem=4gb:scratch_local=50gb:cluster=^haldir
+#PBS -l select=1:ncpus=10:mem=4gb:scratch_local=50gb:cluster=^haldir
 #PBS -l walltime=24:00:00
 
 # additional info files
@@ -17,7 +17,7 @@ STD_OUT=$PBS_O_WORKDIR/uppasd.out
 module add python36-modules-gcc
 
 # set number of processors
-export OMP_NUM_THREADS=$PBS_NUM_PPN
+export OMP_NUM_THREADS=10
 
 # create scratch
 SCR=$SCRATCHDIR
@@ -31,7 +31,7 @@ cd $SCR || exit
 # run simulation
 export SD_PATH=/storage/praha1/home/jpriessnitz/UppASD/source/sd
 export PYTHONPATH=$PYTHONPATH:/storage/praha1/home/jpriessnitz/europium
-python /storage/praha1/home/jpriessnitz/pysd_hysteresis_T_fm/hysteresis.py $DM $TEMP $STEPS
+python /storage/praha1/home/jpriessnitz/europium/pysd_hysteresis_T_fm/hysteresis.py $DM $TEMP $STEPS
 #/storage/praha1/home/balaz/local/UppASD-master-ifort/source/sd
 
 

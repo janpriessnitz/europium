@@ -12,10 +12,10 @@ from pysd import vis
 
 
 mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment
-nPoints = 100
+nPoints = 300
 
 def get_hyst(dm, temp, SDsteps):
-  maxH = 0.05*mRyToTesla
+  maxH = 0.15*mRyToTesla
   init_hz = -maxH
 
   c = config.InpsdFile()
@@ -41,6 +41,7 @@ def get_hyst(dm, temp, SDsteps):
   c.ip_hz = init_hz
   c.hz = init_hz  # hack for visualization
   c.plotenergy = 1
+  c.m_ens = 5
 
   initial_config = copy.deepcopy(c)
   initial_config.ip_mcanneal.sched = [
