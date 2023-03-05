@@ -10,12 +10,15 @@ def plot_energy(rundir, out_fname):
 
     fig, ((ax11, ax12), (ax21, ax22)) = plt.subplots(2, 2, figsize=(12, 8))
 
-    energydata = np.genfromtxt(rundir + "/totenergy.EXP_NAME.out")
-    averagedata = np.genfromtxt(rundir + "/averages.EXP_NAME.out")
-    Es = energydata[1:,1]
-    JEs = energydata[1:,2]
-    DMEs = energydata[1:,4]
-    Mzs = averagedata[1:-1,3]
+    try:
+        energydata = np.genfromtxt(rundir + "/totenergy.EXP_NAME.out")
+        averagedata = np.genfromtxt(rundir + "/averages.EXP_NAME.out")
+        Es = energydata[1:,1]
+        JEs = energydata[1:,2]
+        DMEs = energydata[1:,4]
+        Mzs = averagedata[1:-1,3]
+    except Exception:
+        return
 
     plt.suptitle("Mz flip - energy - DM={}, T={} K, external_H={}".format(DM, temp, Hfield))
 
