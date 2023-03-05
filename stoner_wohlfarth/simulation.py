@@ -55,7 +55,7 @@ def do_flip(dm, temp, Hz, SDsteps = 500000):
       [1, 1, -0.50000, -0.86603, 0.00000, 0, 0, dm],
     ]
   c.hz = Hz*mRyToTesla
-  c.m_ens = 1
+  c.m_ens = 5
   
   c.mode = 'S'
   c.steps = SDsteps
@@ -65,10 +65,10 @@ def do_flip(dm, temp, Hz, SDsteps = 500000):
   c.tseed = int(time.time())
 
   c.do_prnstruct = 1
-  c.do_tottraj = 'Y'
-  c.tottraj_step = 100
-  c.do_cumu = 'N'
-  c.cumu_step = 1
+  c.do_tottraj = 'N'
+  c.tottraj_step = 10000
+  c.do_cumu = 'Y'
+  c.cumu_step = 100
   c.do_avrg = 'Y'
   c.avrg_step = 100
   c.plotenergy = 1
@@ -78,9 +78,9 @@ def do_flip(dm, temp, Hz, SDsteps = 500000):
   res = l.run(c, "run/")
 
   # vis.anim_mag_direct(res.coordfile, res.momentsfile.moments()[0], "mag.mp4")
-  vis.anim_mag_direct_imshow(res.coordfile, res.momentsfile.moments()[0], "mag_imshow.mp4")
+  # vis.anim_mag_direct_imshow(res.coordfile, res.momentsfile.moments()[0], "mag_imshow.mp4")
 
   plot_energy(res, "energy.png")
 
 if __name__ == "__main__":
-  do_flip(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), 100000)
+  do_flip(float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]))
