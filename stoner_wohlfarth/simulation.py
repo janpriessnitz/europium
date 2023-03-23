@@ -19,7 +19,7 @@ def plot_energy(res : launcher.Result, out_fname):
   Es = res.energyfile.data['tot'][1:]
   JEs = res.energyfile.data['exc'][1:]
   DMEs = res.energyfile.data['dm'][1:]
-  Mzs = res.averagesfile.data['M_z'][1:-1]
+  Mzs = res.averagesfile.data['M_z'][1:]
 
   ax1.scatter(Mzs, JEs, label="exc")
   ax2.scatter(Mzs, DMEs, label="DM")
@@ -29,7 +29,7 @@ def plot_energy(res : launcher.Result, out_fname):
 
 mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment
 
-def do_flip(dm, temp, Hz, SDsteps = 500000):
+def do_flip(dm, temp, Hz, SDsteps = 2000):
   c = config.InpsdFile()
   c.size_x = 100
   c.size_y = 100
@@ -55,9 +55,9 @@ def do_flip(dm, temp, Hz, SDsteps = 500000):
       [1, 1, -0.50000, -0.86603, 0.00000, 0, 0, dm],
     ]
   c.hz = Hz*mRyToTesla
-  c.m_ens = 5
+  c.m_ens = 1
   
-  c.mode = 'S'
+  c.mode = 'H'
   c.steps = SDsteps
   c.damping = 0.05
   c.temp = temp
@@ -65,19 +65,19 @@ def do_flip(dm, temp, Hz, SDsteps = 500000):
   c.tseed = int(time.time())
 
   c.do_prnstruct = 1
-  c.do_tottraj = 'N'
-  c.tottraj_step = 10000
+  c.do_tottraj = 'Y'
+  c.tottraj_step = 10
   c.do_cumu = 'Y'
-  c.cumu_step = 100
+  c.cumu_step = 10
   c.do_avrg = 'Y'
-  c.avrg_step = 100
+  c.avrg_step = 10
   c.plotenergy = 1
 
 
   l = launcher.SDLauncher()
   res = l.run(c, "run/")
 
-  # vis.anim_mag_direct(res.coordfile, res.momentsfile.moments()[0], "mag.mp4")
+  vis.anim_mag_direct(res.coordfile, res.momentsfile.moments()[0], "mag.mp4")
   # vis.anim_mag_direct_imshow(res.coordfile, res.momentsfile.moments()[0], "mag_imshow.mp4")
 
   plot_energy(res, "energy.png")

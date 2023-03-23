@@ -29,7 +29,7 @@ class Restartfile:
         ens = int(ens_str)
         if ens != last_ens:
           # start new ensemble
-          self.mag.append(ens_mag)
+          self.mag.append(np.array(ens_mag))
           ens_mag = []
           last_ens = ens
         # hack: fortran prints extremely small numbers in a different format e. g.: 1.98532408-108 instead of 1.98532408E-108

@@ -14,7 +14,8 @@ def plot_mag(coordfile, restartfile, out_fname):
   coords = coordfile.coords()
   ens = 0
 
-  xs, ys, zs = coords.T
+  xs = coords['x']
+  ys = coords['y']
   momxs, momys, momzs = restartfile.mag[ens].T[1:]
   csx = cmap((momxs+1)/2)
   csy = cmap((momys+1)/2)
@@ -46,6 +47,45 @@ def plot_mag(coordfile, restartfile, out_fname):
 
   plt.savefig(out_fname)
   plt.close()
+
+def plot_mag_direct(coordfile, moments):
+  cmap = mpl.cm.get_cmap('bwr')
+  coords = coordfile.coords()
+  ens = 0
+
+  xs = coords['x']
+  ys = coords['y']
+  momxs, momys, momzs = moments['M_x'], moments['M_y'], moments['M_z']
+  csx = cmap((momxs+1)/2)
+  csy = cmap((momys+1)/2)
+  csz = cmap((momzs+1)/2)
+
+  fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(18, 4), width_ratios=(1, 1, 1, 0.05))
+  
+  ax1.set_facecolor("lightgrey")
+  ax2.set_facecolor("lightgrey")
+  ax3.set_facecolor("lightgrey")
+  
+  ax1.set_xticks([])
+  ax1.set_yticks([])
+  ax2.set_xticks([])
+  ax2.set_yticks([])
+  ax3.set_xticks([])
+  ax3.set_yticks([])
+
+  ax1.scatter(xs, ys, color=csx, s=5)
+  ax1.set_title("Mx")
+
+  ax2.scatter(xs, ys, color=csy, s=5)
+  ax2.set_title("My")
+
+  ax3.scatter(xs, ys, color=csz, s=5)
+  ax3.set_title("Mz")
+  
+  mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical')
+
+  return fig
+
 
 def anim_mag_direct(coordfile, moms, out_fname):
   print("begin anim_mag_direct [{}]".format(datetime.now()))
@@ -143,8 +183,6 @@ def anim_mag_direct_imshow(coordfile, moms, out_fname):
     momxs = momxs.reshape((L, L))
     momys = momys.reshape((L, L))
     momzs = momzs.reshape((L, L))
-
-    print("momzs", momzs)
 
     imx.set_array(momxs)
     imy.set_array(momys)
