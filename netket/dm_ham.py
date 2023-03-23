@@ -67,10 +67,10 @@ class DMOp(nk.operator.GraphOperator):
         DM_op = np.array(
             [
                 [0, 0, 0, 0],
+                [0, 0, -2j, 0],
+                [0, 2j, 0, 0],
                 [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-            ]
+            ], dtype=complex
         )
 
         H_op = np.array(
@@ -80,7 +80,7 @@ class DMOp(nk.operator.GraphOperator):
             ]
         )
 
-        site_ops = [H_op]
+        site_ops = [H * H_op]
 
         bond_ops = [J * J_op + DM * DM_op]
         bond_ops_colors = []
