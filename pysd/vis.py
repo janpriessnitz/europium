@@ -9,24 +9,33 @@ import matplotlib.animation as animation
 
 mRyToTesla = 235.0314 # 1 mRy ~ 235 Tesla for a spin with muB magnetic moment
 
-def plot_mag(coordfile, restartfile, out_fname):
+def plot_mag_inner(coordfile, restartfile):
+  def transform_xcoords(xs):
+    L = int(np.sqrt(len(xs)))
+    max_x = xs[L-1]
+    return [x % max_x for x in xs]
+
   cmap = mpl.cm.get_cmap('bwr')
   coords = coordfile.coords()
   ens = 0
 
   xs = coords['x']
   ys = coords['y']
+
+  L = int(np.sqrt(len(xs)))
+  xs = transform_xcoords(xs)
+
   momxs, momys, momzs = restartfile.mag[ens].T[1:]
   csx = cmap((momxs+1)/2)
   csy = cmap((momys+1)/2)
   csz = cmap((momzs+1)/2)
 
-  fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(18, 4), width_ratios=(1, 1, 1, 0.05))
-  
-  ax1.set_facecolor("lightgrey")
-  ax2.set_facecolor("lightgrey")
-  ax3.set_facecolor("lightgrey")
-  
+  fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(10, 2.4), dpi=600, width_ratios=(1, 1, 1, 0.05))
+
+  # ax1.set_facecolor("lightgrey")
+  # ax2.set_facecolor("lightgrey")
+  # ax3.set_facecolor("lightgrey")
+
   ax1.set_xticks([])
   ax1.set_yticks([])
   ax2.set_xticks([])
@@ -34,22 +43,27 @@ def plot_mag(coordfile, restartfile, out_fname):
   ax3.set_xticks([])
   ax3.set_yticks([])
 
-  ax1.scatter(xs, ys, color=csx, s=5)
+  dotsize=9*30*30/L/L
+
+  ax1.scatter(xs, ys, color=csx, s=dotsize, marker='h')
   ax1.set_title("Mx")
 
-  ax2.scatter(xs, ys, color=csy, s=5)
+  ax2.scatter(xs, ys, color=csy, s=dotsize, marker='h')
   ax2.set_title("My")
 
-  ax3.scatter(xs, ys, color=csz, s=5)
+  ax3.scatter(xs, ys, color=csz, s=dotsize, marker='h')
   ax3.set_title("Mz")
-  
-  mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical')
 
+  mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical',norm=mpl.colors.Normalize(vmin=-1, vmax=1))
+  return fig
+
+def plot_mag(coordfile, restartfile, out_fname):
+  fig = plot_mag_inner(coordfile, restartfile)
   plt.savefig(out_fname)
   plt.close()
 
 def plot_mag_direct(coordfile, moments):
-  cmap = mpl.cm.get_cmap('bwr')
+  cmap = mpl.colormaps.get_cmap('bwr')
   coords = coordfile.coords()
   ens = 0
 
@@ -61,11 +75,11 @@ def plot_mag_direct(coordfile, moments):
   csz = cmap((momzs+1)/2)
 
   fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(18, 4), width_ratios=(1, 1, 1, 0.05))
-  
+
   ax1.set_facecolor("lightgrey")
   ax2.set_facecolor("lightgrey")
   ax3.set_facecolor("lightgrey")
-  
+
   ax1.set_xticks([])
   ax1.set_yticks([])
   ax2.set_xticks([])
@@ -81,7 +95,7 @@ def plot_mag_direct(coordfile, moments):
 
   ax3.scatter(xs, ys, color=csz, s=5)
   ax3.set_title("Mz")
-  
+
   mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical')
 
   return fig
@@ -93,14 +107,14 @@ def anim_mag_direct(coordfile, moms, out_fname):
   coords = coordfile.coords()
 
   xs, ys, zs = coords['x'], coords['y'], coords['z']
- 
+
   momxs, momys, momzs = moms[0]['M_x'], moms[0]['M_y'], moms[0]['M_z']
   csx = cmap((momxs+1)/2)
   csy = cmap((momys+1)/2)
   csz = cmap((momzs+1)/2)
 
   fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(18, 4), width_ratios=(1, 1, 1, 0.05))
-  
+
   ax1.set_facecolor("lightgrey")
   ax2.set_facecolor("lightgrey")
   ax3.set_facecolor("lightgrey")
@@ -113,9 +127,9 @@ def anim_mag_direct(coordfile, moms, out_fname):
 
   sc3 = ax3.scatter(xs, ys, s=5)
   ax3.set_title("Mz")
-  
+
   mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical')
-  
+
   def animate_init():
     return (sc1, sc2, sc3)
 
@@ -144,7 +158,7 @@ def anim_mag_direct_imshow(coordfile, moms, out_fname):
   coords = coordfile.coords()
 
   # xs, ys, zs = coords['x'], coords['y'], coords['z']
- 
+
   momxs, momys, momzs = moms[0]['M_x'], moms[0]['M_y'], moms[0]['M_z']
   # csx = cmap((momxs+1)/2)
   # csy = cmap((momys+1)/2)
@@ -158,11 +172,11 @@ def anim_mag_direct_imshow(coordfile, moms, out_fname):
 
 
   fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(18, 4), width_ratios=(1, 1, 1, 0.05))
-  
+
   ax1.set_facecolor("lightgrey")
   ax2.set_facecolor("lightgrey")
   ax3.set_facecolor("lightgrey")
-    
+
   imx = ax1.imshow(momxs, cmap='bwr')
   ax1.set_title("Mx")
 
@@ -171,9 +185,9 @@ def anim_mag_direct_imshow(coordfile, moms, out_fname):
 
   imz = ax3.imshow(momzs, cmap='bwr')
   ax3.set_title("Mz")
-  
+
   mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical')
-  
+
   def animate_init():
     return imx, imy, imz
 
@@ -395,3 +409,136 @@ def plot_hyst(res):
   fig = plt.figure()
   plt.scatter(hs, ms)
   plt.savefig("hysteresis.png")
+
+def fourier(lat, qx, qy):
+    def mom(x, y):
+        return lat[(x%l) + (y%l)*l]
+    l = int(np.sqrt(lat.shape[0]))
+    fmx = 0
+    fmy = 0
+    fmz = 0
+    for x in range(l):
+        for y in range(l):
+            _, mx, my, mz = mom(x, y)
+            fmx += mx*np.exp(2j*np.pi*(qx*x + qy*y))
+            fmy += my*np.exp(2j*np.pi*(qx*x + qy*y))
+            fmz += mz*np.exp(2j*np.pi*(qx*x + qy*y))
+
+    return fmx/l/l, fmy/l/l, fmz/l/l
+
+def plot_fourier(restartfile, out_fname):
+  cmap = mpl.cm.get_cmap('bwr')
+  ens = 0
+
+  # xs = []
+  # ys = []
+  # fxs = []
+  # fys = []
+  # fzs = []
+
+  # for qx in np.linspace(-1, 1, 11):
+  #   for qy in np.linspace(-1, 1, 11):
+  #     xs.append(qx)
+  #     ys.append(qy)
+  #     fx, fy, fz = fourier(restartfile.mag[ens], qx, qy)
+  #     fxs.append(fx)
+  #     fys.append(fy)
+  #     fzs.append(fz)
+
+  # fxs = np.array(fxs)
+  # fys = np.array(fys)
+  # fzs = np.array(fzs)
+
+  # fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(10, 2.4), dpi=600, width_ratios=(1, 1, 1, 0.05))
+
+  # print(fourier(restartfile.mag[ens], 0, 0))
+
+  # print(fzs)
+
+  # csx = cmap((fxs+1)/2)
+  # csy = cmap((fys+1)/2)
+  # csz = cmap((fzs+1)/2)
+
+
+  # # ax1.set_facecolor("lightgrey")
+  # # ax2.set_facecolor("lightgrey")
+  # # ax3.set_facecolor("lightgrey")
+
+  # ax1.set_xticks([])
+  # ax1.set_yticks([])
+  # ax2.set_xticks([])
+  # ax2.set_yticks([])
+  # ax3.set_xticks([])
+  # ax3.set_yticks([])
+
+  # dotsize = 10
+
+  # ax1.scatter(xs, ys, color=csx, s=dotsize)
+  # ax1.set_title("Mx")
+
+  # ax2.scatter(xs, ys, color=csy, s=dotsize)
+  # ax2.set_title("My")
+
+  # ax3.scatter(xs, ys, color=csz, s=dotsize)
+  # ax3.set_title("Mz")
+
+
+
+  mxs, mys, mzs = restartfile.mag[ens].T
+
+  fxs = []
+  fys = []
+  fzs = []
+
+  for qx in np.linspace(-1, 1, 51):
+    fxs.append([])
+    fys.append([])
+    fzs.append([])
+    for qy in np.linspace(-1, 1, 51):
+      fx, fy, fz = fourier(restartfile.mag[ens], qx, qy)
+      fxs[-1].append(np.float(fx))
+      fys[-1].append(np.float(fy))
+      fzs[-1].append(np.float(fz))
+
+  fxs = np.array(fxs)
+  fys = np.array(fys)
+  fzs = np.array(fzs)
+
+  fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(10, 2.4), dpi=600, width_ratios=(1, 1, 1, 0.05))
+
+  print(fourier(restartfile.mag[ens], 0, 0))
+
+  print(fzs)
+
+  csx = cmap((fxs+1)/2)
+  csy = cmap((fys+1)/2)
+  csz = cmap((fzs+1)/2)
+
+
+  # ax1.set_facecolor("lightgrey")
+  # ax2.set_facecolor("lightgrey")
+  # ax3.set_facecolor("lightgrey")
+
+  ax1.set_xticks([])
+  ax1.set_yticks([])
+  ax2.set_xticks([])
+  ax2.set_yticks([])
+  ax3.set_xticks([])
+  ax3.set_yticks([])
+
+  dotsize = 10
+
+  im1 = ax1.imshow(fxs)
+  ax1.set_title("Mx")
+  fig.colorbar(im1, cax=ax4, orientation='vertical')
+
+  ax2.imshow(fys)
+  ax2.set_title("My")
+
+  ax3.imshow(fzs)
+  ax3.set_title("Mz")
+
+  # mpl.colorbar.ColorbarBase(ax4, cmap=cmap, orientation = 'vertical',norm=mpl.colors.Normalize(vmin=-1, vmax=1))
+
+  plt.savefig(out_fname)
+  plt.close()

@@ -76,7 +76,8 @@ class Pdfile(AConfigFile):
   def get_config_str(self):
     ret = ""
     for inter in self.interactions:
-      ret += "{} {} {} {} {} {} {} {} {} {} {}\n".format(inter[0], inter[1], inter[2], inter[3], inter[4], inter[5], inter[6], inter[7], inter[8], inter[9], inter[10])
+      interStrs = [str(x) for x in inter]
+      ret += " ".join(interStrs) + "\n"
     return ret
 
   def save_config(self, config_dir):
@@ -252,7 +253,7 @@ hfield {hx} {hy} {hz}
 
   def structfile_fname(self):
     return "struct.{}.out".format(self.exp_name[:8] if len(self.exp_name) > 8 else self.exp_name)
-    
+
   def momentsfile_fname(self):
     return "moment.{}.out".format(self.exp_name[:8] if len(self.exp_name) > 8 else self.exp_name)
 

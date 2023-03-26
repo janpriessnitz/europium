@@ -100,3 +100,25 @@ class Restartfile:
 
   def __str__(self):
     return self.RESTART_IN_NAME
+
+
+    # Legacy code
+
+class Coordfile:
+  def __init__(self, fname=None):
+    self.coords = None
+    if fname != None:
+      self.load_from_file(fname)
+
+  def load_from_file(self, fname):
+    self.coords = []
+    with open(fname, "r") as fp:
+      for line in fp.readlines():
+        stripped = line.strip()
+        if stripped.startswith("#"):
+          continue
+        iatom_str, x_str, y_str, z_str, a_str, b_str = stripped.split()
+        x = float(x_str)
+        y = float(y_str)
+        z = float(z_str)
+        self.coords.append([x, y, z])
